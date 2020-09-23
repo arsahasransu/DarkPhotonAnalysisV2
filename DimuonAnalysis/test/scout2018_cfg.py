@@ -90,7 +90,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(50000) )
 # Input EDM files
 process.source = cms.Source("PoolSource",
 	fileNames = cms.untracked.vstring([
-	'/store/data/Run2018D/ScoutingCaloMuon/RAW/v1/000/321/283/00000/0AF726D6-E09F-E811-966B-FA163E89B4C8.root'	
+	'/store/data/Run2018D/ScoutingCaloMuon/RAW/v1/000/325/117/00000/ACED7828-6D25-F744-A228-D4738C73B460.root'	
 
 	])
 )
