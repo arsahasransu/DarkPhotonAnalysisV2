@@ -60,8 +60,8 @@ void makeCardsAndWS(){
   	TString year="2018C";
 	TString suff="IterV0";
   //INPUT FILE WITH HISTOGRAMS TO FIT BACKGROUND
-  	  TFile* file=TFile::Open("/eos/cms/store/group/phys_exotica/darkPhoton/jakob/newProd/2018/ScoutingRunC/mergedHistos_v1.root");
-	  //TFile* file=TFile::Open("./hists18Ccmsdas.root.root");
+	//TFile* file=TFile::Open("/eos/cms/store/group/phys_exotica/darkPhoton/jakob/newProd/2018/ScoutingRunC/mergedHistos_v1.root");
+	  TFile* file=TFile::Open("hists2018C.root");
 	
   //PREPARE EXPECTED NUMBER OF SIGNAL EVENTS PER CATEGORY
 

@@ -4,3 +4,6 @@
 *.so
 *.pcm
 DimuonAnalysis/macros/hists18C_cmsdas/
+DimuonAnalysis/macros/higgsCombineasympMassIndex_*
+DimuonAnalysis/macros/dpWorkspace2018CIterV0_*
+DimuonAnalysis/macros/dpCard_2018CIterV0_*
