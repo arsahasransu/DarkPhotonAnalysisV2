@@ -23,12 +23,12 @@ void trimscoutMakeTheCardsLMnew_2018C_cmsdas(string treepath = "scout_2.root", c
     //TH1F* dimuonMassJPsi = new TH1F("dimuonMassJPsi","dimuonMassJPsi",700,2.7,3.4);
 
     
-    /*float m=0.2;
+    float m=0.2;
     TH1F* massforLimit_CatA[400];
     for(int j=0; j<400; j++){
       m = m+(m*0.01); 
       massforLimit_CatA[j] = new TH1F(Form("massforLimit_CatA%d",j),Form("massforLimit_CatA%d",j),100,m-(m*0.01*10.),m+(m*0.01*10.));  massforLimit_CatA[j]->Sumw2();
-      }*/
+      }
     
 
    for(unsigned int f=0; f<filesToRun.size(); f++){
@@ -96,7 +96,11 @@ void trimscoutMakeTheCardsLMnew_2018C_cmsdas(string treepath = "scout_2.root", c
     unsigned LumSec   = 0;
 
     int p=0;
+    int evt = 0;
     while(reader.Next()) {
+      evt++;
+      if(evt%10000==0) std::cout<<evt<<" done."<<std::endl;
+
       if (((*hlt) & 2) == 0) continue;   
       bool passIso=false;
       bool passIsoLoose=false;
@@ -222,23 +226,23 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
 	if(m1ch*m2ch<0. && passPVconstraintSig && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.9) dimuonMass->Fill(mass);
 	//if(m1ch*m2ch<0. && passPVconstraintSig && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.9 && mass>2.7 && mass<3.4) dimuonMassJPsi->Fill(mass);
 
-	/*float ma=0.2;
+	float ma=0.2;
 	for(int j=0; j<400.; j++){
       		ma = ma+(ma*0.01); 
      		if(mass > ma-(ma*0.01*10.) && mass < ma+(ma*0.01*10.)) 
 		{
 			if(m1ch*m2ch<0. && passPVconstraintSig && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.9){ massforLimit_CatA[j]->Fill(mass); }
 	    	}     
-		}*/	
+		}	
 	
    	}		
    }
    
     dimuonMass->Write();
-    // dimuonMassJPsi->Write();
-    /*for(int j=0; j<400.;j++){
+    //dimuonMassJPsi->Write();
+    for(int j=0; j<400.;j++){
 	massforLimit_CatA[j]->Write();
-      }*/
+      }
 
     outfile->Close();
 
