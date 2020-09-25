@@ -217,7 +217,8 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
 	float slidePt2 = 3.;
 	float maxEta=TMath::Max(abs(m1eta),abs(m2eta));
 	
-	if(nvtx==0) continue;
+    #if(nvtx==0) continue;
+    if(nvtx!=1) continue;
 
 	if( (  sqrt( ((*vtxX)[0] - BSx)*((*vtxX)[0] - BSx) + ((*vtxY)[0] - BSy)*((*vtxY)[0] - BSy) )/sqrt( ((*vtxYError)[0]*(*vtxYError)[0]) + ((*vtxXError)[0]*(*vtxXError)[0]))  ) < 1.2 ) passPVconstraintSig = true;
 	
