@@ -33,6 +33,19 @@ void trimscoutMakeTheCardsLMnew_2018C_cmsdas(string treepath = "scout_2.root", c
     TH1F* dimuonR = new TH1F("dimuonR","dimuonR",400,0.,20.);
 
 
+    // ----- mass spectra for different radial regions ----- //
+    // ----- 0-1GeV ----- //
+    TH1F* dimuonL2_mass1   = new TH1F("dimuonL2_mass1",   "dimuonL2_mass1",   2400, 0., 1.) ;
+    TH1F* dimuonL34_mass1  = new TH1F("dimuonL34_mass1",  "dimuonL34_mass1",  2400, 0., 1.) ;
+    TH1F* dimuonL234_mass1 = new TH1F("dimuonL234_mass1", "dimuonL234_mass1", 2400, 0., 1.) ;
+    TH1F* dimuonL1_mass1   = new TH1F("dimuonL1_mass1",   "dimuonL1_mass1",   2400, 0., 1.) ;
+    // ----- 0-10GeV ----- //
+    TH1F* dimuonL2_mass10   = new TH1F("dimuonL2_mass10",   "dimuonL2_mass10",   2400, 0., 10.) ;
+    TH1F* dimuonL34_mass10  = new TH1F("dimuonL34_mass10",  "dimuonL34_mass10",  2400, 0., 10.) ;
+    TH1F* dimuonL234_mass10 = new TH1F("dimuonL234_mass10", "dimuonL234_mass10", 2400, 0., 10.) ;
+    TH1F* dimuonL1_mass10   = new TH1F("dimuonL1_mass10",   "dimuonL1_mass10",   2400, 0., 10.) ;
+
+
    for(unsigned int f=0; f<filesToRun.size(); f++){
 
     cout<<filesToRun[f]<<endl;
@@ -217,7 +230,7 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
 	float slidePt2 = 3.;
 	float maxEta=TMath::Max(abs(m1eta),abs(m2eta));
 	
-    #if(nvtx==0) continue;
+    //if(nvtx==0) continue;
     if(nvtx!=1) continue;
 
 	if( (  sqrt( ((*vtxX)[0] - BSx)*((*vtxX)[0] - BSx) + ((*vtxY)[0] - BSy)*((*vtxY)[0] - BSy) )/sqrt( ((*vtxYError)[0]*(*vtxYError)[0]) + ((*vtxXError)[0]*(*vtxXError)[0]))  ) < 1.2 ) passPVconstraintSig = true;
@@ -234,18 +247,60 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
 	    	}     
 		}*/	
 
+
+        // ----- plots for pixel layer radius ----- //
         float R = sqrt((*vtxX)[0]*(*vtxX)[0] + (*vtxY)[0]*(*vtxY)[0]);
-	if(m1ch*m2ch<0. && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.2 && R > 2.) {
+        bool our_std_requirements = (m1ch*m2ch<0. && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.2) ;
+	if(our_std_requirements) {
           dimuonXY->Fill((*vtxX)[0],(*vtxY)[0]);
           dimuonR->Fill(R);
         }
-      }		
         
+        // ----- mass spectra for different radial regions ----- //
+        float RL1 = 2.9 ; // radial position of layer 1 in cm
+        float marginL1 = 0.5 ; // radial domain of layer 1 goes form RL1-marginL1 to RL1+marginL1
+        float RL2 = 6.9 ; // radial position of layer 2 in cm
+        float marginL2 = 0.5 ; // radial domain of layer 2 goes form RL2-marginL2 to RL2+marginL2
+        float RL3 = 11.8 ; // radial position of layer 3 in cm
+        float marginL3 = 0.5 ; // radial domain of layer 3 goes form RL3-marginL3 to RL3+marginL3
+        float RL4 = 15.8 ; // radial position of layer 4 in cm
+        float marginL4 = 0.5 ; // radial domain of layer 4 goes form RL4-marginL4 to RL4+marginL4
+        
+        bool isinL1 = (R > (RL1 - marginL1)) && (R < (RL1 + marginL1));
+        bool isinL2 = (R > (RL2 - marginL2)) && (R < (RL2 + marginL2));
+        bool isinL3 = (R > (RL3 - marginL3)) && (R < (RL3 + marginL3));
+        bool isinL4 = (R > (RL4 - marginL4)) && (R < (RL4 + marginL4));
+
+        bool mass_smaller_1GeV = mass < 1. ;
+        bool mass_smaller_10GeV = mass < 10. ;
+	if(our_std_requirements && mass_smaller_1GeV && isinL2)                      dimuonL2_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isinL3 && isinL4)            dimuonL34_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isinL2 && isinL3 && isinL4)  dimuonL234_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isinL1)                      dimuonL1_mass1->Fill(mass);
+
+	if(our_std_requirements && mass_smaller_10GeV && isinL2)                     dimuonL2_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isinL3 && isinL4)           dimuonL34_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isinL2 && isinL3 && isinL4) dimuonL234_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isinL1)                     dimuonL1_mass10->Fill(mass);
+     } 
+              
    }
    
    dimuonMass->Write();
    dimuonXY->Write();
    dimuonR->Write();
+
+   // ----- mass spectra for different radial regions ----- //
+   dimuonL2_mass1->Write();
+   dimuonL34_mass1->Write();
+   dimuonL234_mass1->Write();
+   dimuonL1_mass1->Write();
+   
+   dimuonL2_mass10->Write();
+   dimuonL34_mass10->Write();
+   dimuonL234_mass10->Write();
+   dimuonL1_mass10->Write();
+   
    //dimuonMassJPsi->Write();
    /*for(int j=0; j<400.;j++){
      massforLimit_CatA[j]->Write();
