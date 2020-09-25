@@ -1,2 +1,11 @@
 *~
-*pyc
+*.pyc
+*.d
+*.so
+*.pcm
+*.cxx_tmp_4021
+DimuonAnalysis/macros/hists18C_cmsdas/
+DimuonAnalysis/python/TriggerPaths2017_cfi.pyc
+DimuonAnalysis/python/__init__.pyc
+DimuonAnalysis/python/samples/SC2017.pyc
+DimuonAnalysis/python/samples/Samples2017.pyc

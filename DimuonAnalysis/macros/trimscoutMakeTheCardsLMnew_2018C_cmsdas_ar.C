@@ -8,7 +8,7 @@
 #include <TTreeReaderValue.h>
 #include "TLorentzVector.h"
 
-void trimscoutMakeTheCardsLMnew_2018C_cmsdas(string treepath = "scout_2.root", const char* outfilename = "./scout_cmsdas.root", bool isMC=false) {
+void trimscoutMakeTheCardsLMnew_2018C_cmsdas_ar(string treepath = "scout_2.root", const char* outfilename = "./scout_cmsdas.root", bool isMC=false) {
  
    vector<string> filesToRun;
    vector<bool> isData;
@@ -20,6 +20,8 @@ void trimscoutMakeTheCardsLMnew_2018C_cmsdas(string treepath = "scout_2.root", c
      
 
     TH1F* dimuonMass = new TH1F("dimuonMass","dimuonMass",2400,0.2,120.);
+    TH2F* vert2d_nosel = new TH2F("vert2d_nosel","vert2d_nosel",400, -20., 20., 400, -20., 20.);
+    TH2F* vert2d_dimusel = new TH2F("vert2d_dimusel","vert2d_dimusel",400, -20., 20., 400, -20., 20.);
     //TH1F* dimuonMassJPsi = new TH1F("dimuonMassJPsi","dimuonMassJPsi",700,2.7,3.4);
 
     
@@ -101,6 +103,9 @@ void trimscoutMakeTheCardsLMnew_2018C_cmsdas(string treepath = "scout_2.root", c
       evt++;
       if(evt%10000==0) std::cout<<evt<<" done"<<std::endl;
       if (((*hlt) & 2) == 0) continue;   
+
+      if(nvtx>0) vert2d_nosel->Fill((*vtxX)[0], (*vtxY)[0]);
+
       bool passIso=false;
       bool passIsoLoose=false;
       bool passIsoOpt=false;
@@ -222,7 +227,10 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
 
 	if( (  sqrt( ((*vtxX)[0] - BSx)*((*vtxX)[0] - BSx) + ((*vtxY)[0] - BSy)*((*vtxY)[0] - BSy) )/sqrt( ((*vtxYError)[0]*(*vtxYError)[0]) + ((*vtxXError)[0]*(*vtxXError)[0]))  ) < 1.2 ) passPVconstraintSig = true;
 	
-	if(m1ch*m2ch<0. && passPVconstraintSig && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.9) dimuonMass->Fill(mass);
+	if(m1ch*m2ch<0. && passPVconstraintSig && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.9) {
+	  dimuonMass->Fill(mass);
+	  vert2d_dimusel->Fill((*vtxX)[0], (*vtxY)[0]);
+	}
 	//if(m1ch*m2ch<0. && passPVconstraintSig && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.9 && mass>2.7 && mass<3.4) dimuonMassJPsi->Fill(mass);
 
 	/*float ma=0.2;
@@ -238,6 +246,8 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
    }
    
     dimuonMass->Write();
+    vert2d_nosel->Write();
+    vert2d_dimusel->Write();
     // dimuonMassJPsi->Write();
     /*for(int j=0; j<400.;j++){
 	massforLimit_CatA[j]->Write();
