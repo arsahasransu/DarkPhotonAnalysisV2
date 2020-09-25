@@ -274,13 +274,13 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
         bool mass_smaller_1GeV = mass < 1. ;
         bool mass_smaller_10GeV = mass < 10. ;
 	if(our_std_requirements && mass_smaller_1GeV && isinL2)                      dimuonL2_mass1->Fill(mass);
-	if(our_std_requirements && mass_smaller_1GeV && isinL3 && isinL4)            dimuonL34_mass1->Fill(mass);
-	if(our_std_requirements && mass_smaller_1GeV && isinL2 && isinL3 && isinL4)  dimuonL234_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && (isinL3 || isinL4))            dimuonL34_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && (isinL2 || isinL3 || isinL4))  dimuonL234_mass1->Fill(mass);
 	if(our_std_requirements && mass_smaller_1GeV && isinL1)                      dimuonL1_mass1->Fill(mass);
 
 	if(our_std_requirements && mass_smaller_10GeV && isinL2)                     dimuonL2_mass10->Fill(mass);
-	if(our_std_requirements && mass_smaller_10GeV && isinL3 && isinL4)           dimuonL34_mass10->Fill(mass);
-	if(our_std_requirements && mass_smaller_10GeV && isinL2 && isinL3 && isinL4) dimuonL234_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && (isinL3 || isinL4))           dimuonL34_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && (isinL2 || isinL3 || isinL4)) dimuonL234_mass10->Fill(mass);
 	if(our_std_requirements && mass_smaller_10GeV && isinL1)                     dimuonL1_mass10->Fill(mass);
      } 
               
