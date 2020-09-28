@@ -51,7 +51,7 @@ Double_t fitFunction(Double_t *x, Double_t *par) {
 }
 
 
-void myfitter(){
+void pixelFits(){
 	TFile *f = new TFile("custom_hists2018.root");
 	// TFile *f = new TFile("hists2018C_radius.root");
 
@@ -88,5 +88,4 @@ void myfitter(){
 	c1->Update();
 	c1->SaveAs("dummy.png");
 	gApplication->Terminate();
-
 }
