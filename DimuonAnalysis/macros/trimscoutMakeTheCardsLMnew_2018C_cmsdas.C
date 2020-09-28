@@ -31,19 +31,33 @@ void trimscoutMakeTheCardsLMnew_2018C_cmsdas(string treepath = "scout_2.root", c
     }*/
     TH2F* dimuonXY = new TH2F("dimuonXY", "dimuonXY", 400, -20., 20., 400, -20., 20.);
     TH1F* dimuonR = new TH1F("dimuonR","dimuonR",400,0.,20.);
-
+    TH1F* dimuonRNoConstraints = new TH1F("dimuonRNoConstraints","dimuonRNoConstraints",400,0.,20.);
+    TH1F* vertMult_nosel = new TH1F("vertMult_nosel","Vertex Multiplicity no selection",10,0,10.);
+    TH1F* vertMult_dimusel = new TH1F("vertMult_dimusel","Vertex Multiplicity after selection",10,0,10.);
 
     // ----- mass spectra for different radial regions ----- //
     // ----- 0-1GeV ----- //
-    TH1F* dimuonL2_mass1   = new TH1F("dimuonL2_mass1",   "dimuonL2_mass1",   2400, 0., 1.) ;
-    TH1F* dimuonL34_mass1  = new TH1F("dimuonL34_mass1",  "dimuonL34_mass1",  2400, 0., 1.) ;
-    TH1F* dimuonL234_mass1 = new TH1F("dimuonL234_mass1", "dimuonL234_mass1", 2400, 0., 1.) ;
-    TH1F* dimuonL1_mass1   = new TH1F("dimuonL1_mass1",   "dimuonL1_mass1",   2400, 0., 1.) ;
-    // ----- 0-10GeV ----- //
-    TH1F* dimuonL2_mass10   = new TH1F("dimuonL2_mass10",   "dimuonL2_mass10",   2400, 0., 10.) ;
-    TH1F* dimuonL34_mass10  = new TH1F("dimuonL34_mass10",  "dimuonL34_mass10",  2400, 0., 10.) ;
-    TH1F* dimuonL234_mass10 = new TH1F("dimuonL234_mass10", "dimuonL234_mass10", 2400, 0., 10.) ;
-    TH1F* dimuonL1_mass10   = new TH1F("dimuonL1_mass10",   "dimuonL1_mass10",   2400, 0., 10.) ;
+    TH1F* dimuonL1_mass1             = new TH1F("dimuonL1_mass1",            "dimuonL1_mass1",             2400, 0., 1.) ;
+    TH1F* dimuonL2_mass1             = new TH1F("dimuonL2_mass1",            "dimuonL2_mass1",             2400, 0., 1.) ;
+    TH1F* dimuonL3_mass1             = new TH1F("dimuonL3_mass1",            "dimuonL3_mass1",             2400, 0., 1.) ;
+    TH1F* dimuonL4_mass1             = new TH1F("dimuonL4_mass1",            "dimuonL4_mass1",             2400, 0., 1.) ;
+    TH1F* dimuonL34_mass1            = new TH1F("dimuonL34_mass1",           "dimuonL34_mass1",            2400, 0., 1.) ;
+    TH1F* dimuonL234_mass1           = new TH1F("dimuonL234_mass1",          "dimuonL234_mass1",           2400, 0., 1.) ;
+    TH1F* dimuonNotInLayers_mass1    = new TH1F("dimuonNotInLayers_mass1",   "dimuonNotInLayers_mass1",    2400, 0., 1.) ;
+    TH1F* dimuonBetweenL1andL2_mass1 = new TH1F("dimuonBetweenL1andL2_mass1","dimuonBetweenL1andL2_mass1", 2400, 0., 1.) ;
+    TH1F* dimuonAfterL1_mass1        = new TH1F("dimuonAfterL1_mass1",       "dimuonAfterL1_mass1",        2400, 0., 1.) ;
+    TH1F* dimuonBeforeL1_mass1       = new TH1F("dimuonBeforeL1_mass1",      "dimuonBeforeL1_mass1",       2400, 0., 1.) ;
+    // ----- 0-10GeV ----- //                                                                             
+    TH1F* dimuonL1_mass10             = new TH1F("dimuonL1_mass10",            "dimuonL1_mass10",             2400, 0., 10.) ;         
+    TH1F* dimuonL2_mass10             = new TH1F("dimuonL2_mass10",            "dimuonL2_mass10",             2400, 0., 10.) ;
+    TH1F* dimuonL3_mass10             = new TH1F("dimuonL3_mass10",            "dimuonL3_mass10",             2400, 0., 10.) ;
+    TH1F* dimuonL4_mass10             = new TH1F("dimuonL4_mass10",            "dimuonL4_mass10",             2400, 0., 10.) ;
+    TH1F* dimuonL34_mass10            = new TH1F("dimuonL34_mass10",           "dimuonL34_mass10",            2400, 0., 10.) ;
+    TH1F* dimuonL234_mass10           = new TH1F("dimuonL234_mass10",          "dimuonL234_mass10",           2400, 0., 10.) ;
+    TH1F* dimuonNotInLayers_mass10    = new TH1F("dimuonNotInLayers_mass10",   "dimuonNotInLayers_mass10",    2400, 0., 1.) ;
+    TH1F* dimuonBetweenL1andL2_mass10 = new TH1F("dimuonBetweenL1andL2_mass10","dimuonBetweenL1andL2_mass10", 2400, 0., 1.) ;
+    TH1F* dimuonAfterL1_mass10        = new TH1F("dimuonAfterL1_mass10",       "dimuonAfterL1_mass10",        2400, 0., 1.) ;
+    TH1F* dimuonBeforeL1_mass10       = new TH1F("dimuonBeforeL1_mass10",      "dimuonBeforeL1_mass10",       2400, 0., 1.) ;
 
 
    for(unsigned int f=0; f<filesToRun.size(); f++){
@@ -113,6 +127,8 @@ void trimscoutMakeTheCardsLMnew_2018C_cmsdas(string treepath = "scout_2.root", c
     int p=0;
     while(reader.Next()) {
       if (((*hlt) & 2) == 0) continue;   
+      vertMult_nosel->Fill(nvtx); // for vertex multiplicity plot
+
       bool passIso=false;
       bool passIsoLoose=false;
       bool passIsoOpt=false;
@@ -229,13 +245,23 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
 	float slidePt1 = 3.;	
 	float slidePt2 = 3.;
 	float maxEta=TMath::Max(abs(m1eta),abs(m2eta));
-	
+    
+
+
+
+    // ----- Radius projection of the vertex position without any constraints ----- //
+    dimuonRNoConstraints->Fill(sqrt((*vtxX)[0]*(*vtxX)[0] + (*vtxY)[0]*(*vtxY)[0])); 	
+    
+    // ----- Vertex multiplicity plot ----- //
+    if(m1ch*m2ch<0. && passPVconstraintSig && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.2) {
+    vertMult_dimusel->Fill(nvtx);
+    }
     //if(nvtx==0) continue;
     if(nvtx!=1) continue;
 
 	if( (  sqrt( ((*vtxX)[0] - BSx)*((*vtxX)[0] - BSx) + ((*vtxY)[0] - BSy)*((*vtxY)[0] - BSy) )/sqrt( ((*vtxYError)[0]*(*vtxYError)[0]) + ((*vtxXError)[0]*(*vtxXError)[0]))  ) < 1.2 ) passPVconstraintSig = true;
 	
-	if(m1ch*m2ch<0. && passPVconstraintSig && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.9) dimuonMass->Fill(mass);
+	if(m1ch*m2ch<0. /*&& passPVconstraintSig*/ && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.2) dimuonMass->Fill(mass);
 	//if(m1ch*m2ch<0. && passPVconstraintSig && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.9 && mass>2.7 && mass<3.4) dimuonMassJPsi->Fill(mass);
 
 	/*float ma=0.2;
@@ -257,7 +283,7 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
         }
         
         // ----- mass spectra for different radial regions ----- //
-        float RL1 = 2.9 ; // radial position of layer 1 in cm
+/*        float RL1 = 2.9 ; // radial position of layer 1 in cm
         float marginL1 = 0.5 ; // radial domain of layer 1 goes form RL1-marginL1 to RL1+marginL1
         float RL2 = 6.9 ; // radial position of layer 2 in cm
         float marginL2 = 0.5 ; // radial domain of layer 2 goes form RL2-marginL2 to RL2+marginL2
@@ -270,18 +296,43 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
         bool isinL2 = (R > (RL2 - marginL2)) && (R < (RL2 + marginL2));
         bool isinL3 = (R > (RL3 - marginL3)) && (R < (RL3 + marginL3));
         bool isinL4 = (R > (RL4 - marginL4)) && (R < (RL4 + marginL4));
+        bool isAfterL1 = (R > (RL1 + marginL1 + 0.2)) && (R < (RL1 + marginL1 + 0.2 + 1));
+        bool isNotInLayers = !(isinL1 || isinL2 || isinL3 || isinL4);
+        bool isBetweenL1andL2 = (R > (RL1 + marginL1)) && (R < (RL2 - marginL1));
+*/         
+        bool isinL1 = (R > 2.5) && (R < 3.5);
+        bool isinL2 = (R > 6.3) && (R < 7.2);
+        bool isinL3 = (R > 10.5) && (R < 11.3);
+        bool isinL4 = (R > 15.6) && (R < 16.4);
+        bool isNotInLayers = !(isinL1 || isinL2 || isinL3 || isinL4);
+        bool isBetweenL1andL2 = (R > (RL1 + marginL1)) && (R < (RL2 - marginL1));
+        bool isAfterL1 = (R > 3.5) && (R < (3.5+(6.3-3.5)/2));
+        bool isBeforeL1 = (R > 0) && (R < 2.5); 
+        
 
         bool mass_smaller_1GeV = mass < 1. ;
         bool mass_smaller_10GeV = mass < 10. ;
-	if(our_std_requirements && mass_smaller_1GeV && isinL2)                      dimuonL2_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isinL1)                        dimuonL1_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isinL2)                        dimuonL2_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isinL3)                        dimuonL3_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isinL4)                        dimuonL4_mass1->Fill(mass);
 	if(our_std_requirements && mass_smaller_1GeV && (isinL3 || isinL4))            dimuonL34_mass1->Fill(mass);
 	if(our_std_requirements && mass_smaller_1GeV && (isinL2 || isinL3 || isinL4))  dimuonL234_mass1->Fill(mass);
-	if(our_std_requirements && mass_smaller_1GeV && isinL1)                      dimuonL1_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isNotInLayers)                 dimuonNotInLayers_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isBetweenL1andL2)              dimuonBetweenL1andL2_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isAfterL1)                     dimuonAfterL1_mass1->Fill(mass);
+	if(our_std_requirements && mass_smaller_1GeV && isBeforeL1)                    dimuonBeforeL1_mass1->Fill(mass);
 
-	if(our_std_requirements && mass_smaller_10GeV && isinL2)                     dimuonL2_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isinL1)                       dimuonL1_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isinL2)                       dimuonL2_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isinL3)                       dimuonL3_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isinL4)                       dimuonL4_mass10->Fill(mass);
 	if(our_std_requirements && mass_smaller_10GeV && (isinL3 || isinL4))           dimuonL34_mass10->Fill(mass);
 	if(our_std_requirements && mass_smaller_10GeV && (isinL2 || isinL3 || isinL4)) dimuonL234_mass10->Fill(mass);
-	if(our_std_requirements && mass_smaller_10GeV && isinL1)                     dimuonL1_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isNotInLayers)                dimuonNotInLayers_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isBetweenL1andL2)             dimuonBetweenL1andL2_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isAfterL1)                    dimuonAfterL1_mass10->Fill(mass);
+	if(our_std_requirements && mass_smaller_10GeV && isBeforeL1)                   dimuonBeforeL1_mass10->Fill(mass);
      } 
               
    }
@@ -289,17 +340,35 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
    dimuonMass->Write();
    dimuonXY->Write();
    dimuonR->Write();
+   dimuonRNoConstraints->Write();
+   vertMult_nosel->Write();
+   vertMult_dimusel->Write();
+
 
    // ----- mass spectra for different radial regions ----- //
+   dimuonL1_mass1->Write();
+   dimuonFakes_mass1->Write();
    dimuonL2_mass1->Write();
+   dimuonL3_mass1->Write();
+   dimuonL4_mass1->Write();
    dimuonL34_mass1->Write();
    dimuonL234_mass1->Write();
-   dimuonL1_mass1->Write();
+   dimuonNotInLayers_mass1->Write();
+   dimuonBetweenL1andL2_mass1->Write();
+   dimuonAfterL1_mass1->Write();
+   dimuonBeforeL1_mass1->Write();
    
+   dimuonL1_mass10->Write();
+   dimuonFakes_mass10->Write();
    dimuonL2_mass10->Write();
+   dimuonL3_mass10->Write();
+   dimuonL4_mass10->Write();
    dimuonL34_mass10->Write();
    dimuonL234_mass10->Write();
-   dimuonL1_mass10->Write();
+   dimuonNotInLayers_mass10->Write();
+   dimuonBetweenL1andL2_mass10->Write();
+   dimuonAfterL1_mass10->Write();
+   dimuonBeforeL1_mass10->Write();
    
    //dimuonMassJPsi->Write();
    /*for(int j=0; j<400.;j++){
