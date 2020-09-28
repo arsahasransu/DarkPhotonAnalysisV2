@@ -30,6 +30,7 @@ void trimscoutMakeTheCardsLMnew_2018C_cmsdas(string treepath = "scout_2.root", c
       massforLimit_CatA[j] = new TH1F(Form("massforLimit_CatA%d",j),Form("massforLimit_CatA%d",j),100,m-(m*0.01*10.),m+(m*0.01*10.));  massforLimit_CatA[j]->Sumw2();
     }*/
     TH2F* dimuonXY = new TH2F("dimuonXY", "dimuonXY", 400, -20., 20., 400, -20., 20.);
+    TH2F* dimuonXYNoConstraints = new TH2F("dimuonXYNoConstraints", "dimuonXYNoConstraints", 400, -20., 20., 400, -20., 20.);
     TH1F* dimuonR = new TH1F("dimuonR","dimuonR",400,0.,20.);
     TH1F* dimuonRNoConstraints = new TH1F("dimuonRNoConstraints","dimuonRNoConstraints",400,0.,20.);
     TH1F* vertMult_nosel = new TH1F("vertMult_nosel","Vertex Multiplicity no selection",10,0,10.);
@@ -249,14 +250,19 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
 
 
 
-    // ----- Radius projection of the vertex position without any constraints ----- //
-    dimuonRNoConstraints->Fill(sqrt((*vtxX)[0]*(*vtxX)[0] + (*vtxY)[0]*(*vtxY)[0])); 	
     
     // ----- Vertex multiplicity plot ----- //
-    if(m1ch*m2ch<0. && passPVconstraintSig && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.2) {
-    vertMult_dimusel->Fill(nvtx);
+    if(m1ch*m2ch<0. && m1pt>slidePt1 && m2pt>slidePt2 && maxEta<1.2) {
+      vertMult_dimusel->Fill(nvtx);
     }
-    //if(nvtx==0) continue;
+
+
+    if(nvtx==0) continue;
+    // ----- Radius projection of the vertex position without any constraints ----- //
+    dimuonRNoConstraints->Fill(sqrt((*vtxX)[0]*(*vtxX)[0] + (*vtxY)[0]*(*vtxY)[0])); 	
+    dimuonXYNoConstraints->Fill((*vtxX)[0],(*vtxY)[0]);
+
+
     if(nvtx!=1) continue;
 
 	if( (  sqrt( ((*vtxX)[0] - BSx)*((*vtxX)[0] - BSx) + ((*vtxY)[0] - BSy)*((*vtxY)[0] - BSy) )/sqrt( ((*vtxYError)[0]*(*vtxYError)[0]) + ((*vtxXError)[0]*(*vtxXError)[0]))  ) < 1.2 ) passPVconstraintSig = true;
@@ -305,7 +311,7 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
         bool isinL3 = (R > 10.5) && (R < 11.3);
         bool isinL4 = (R > 15.6) && (R < 16.4);
         bool isNotInLayers = !(isinL1 || isinL2 || isinL3 || isinL4);
-        bool isBetweenL1andL2 = (R > (RL1 + marginL1)) && (R < (RL2 - marginL1));
+        bool isBetweenL1andL2 = (R > 3.5) && (R < 6.3);
         bool isAfterL1 = (R > 3.5) && (R < (3.5+(6.3-3.5)/2));
         bool isBeforeL1 = (R > 0) && (R < 2.5); 
         
@@ -339,6 +345,7 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
    
    dimuonMass->Write();
    dimuonXY->Write();
+   dimuonXYNoConstraints->Write();
    dimuonR->Write();
    dimuonRNoConstraints->Write();
    vertMult_nosel->Write();
@@ -347,7 +354,6 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
 
    // ----- mass spectra for different radial regions ----- //
    dimuonL1_mass1->Write();
-   dimuonFakes_mass1->Write();
    dimuonL2_mass1->Write();
    dimuonL3_mass1->Write();
    dimuonL4_mass1->Write();
@@ -359,7 +365,6 @@ THE LOW MASS TRIGGER TO MEASURE FAKE: ID 18 - 20 [ONLY IN FROM RUN 305405]
    dimuonBeforeL1_mass1->Write();
    
    dimuonL1_mass10->Write();
-   dimuonFakes_mass10->Write();
    dimuonL2_mass10->Write();
    dimuonL3_mass10->Write();
    dimuonL4_mass10->Write();
